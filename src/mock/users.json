@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "nome": "Daniel Pellicano",
+    "email": "admin@teste.com",
+    "senha": "123456",
+    "perfil": "admin"
+  },
+  {
+    "id": 2,
+    "nome": "Usuário Comum",
+    "email": "user@teste.com",
+    "senha": "123456",
+    "perfil": "user"
+  },
+  {
+    "id": 3,
+    "nome": "Julia",
+    "email": "julia@gmail.com",
+    "senha": "123456",
+    "perfil": "user"
+  }
+]
