@@ -1,32 +1,41 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, lazy, Suspense } from 'react'
+import { useDadosIBGE } from '@/hooks/useDadosIBGE'
 import filtrosMock from '@/mock/mockFiltros.json'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import Loader from '@/components/Loader'
-import { useRef } from 'react'
+
+const BarChartLazy = lazy(() => import('@/components/BarChartWrapper'))
 
 export default function FiltroGeral() {
   const [variaveisSelecionadas, setVariaveisSelecionadas] = useState<string[]>([])
   const [cnaesSelecionadas, setCnaesSelecionadas] = useState<string[]>([])
   const [anosSelecionados, setAnosSelecionados] = useState<string[]>([])
-  const [url, setUrl] = useState<string>('')
-  const [dados, setDados] = useState<any[]>([])
-  const [loading, setLoading] = useState(false)
-
-  const montarURL = () => {
-    if (variaveisSelecionadas.length && cnaesSelecionadas.length && anosSelecionados.length) {
-      const base = 'https://apisidra.ibge.gov.br/values/t/1842/n1/all'
-      const v = `v/${variaveisSelecionadas.join(',')}`
-      const p = `p/${anosSelecionados.join(',')}`
-      const c = `c12762/${cnaesSelecionadas.join(',')}`
-      return `${base}/${v}/${p}/${c}`
-    }
-    return ''
-  }
+  const [url, setUrl] = useState('')
+  const [filtros, setFiltros] = useState<{ variaveis: string[], cnaes: string[], anos: string[] } | null>(null)
 
   const resultadoRef = useRef<HTMLDivElement>(null)
 
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading
+  } = useDadosIBGE(filtros)
+
+  const buscarDados = () => {
+    const hasFiltros = variaveisSelecionadas.length && cnaesSelecionadas.length && anosSelecionados.length
+    if (!hasFiltros) return
+
+    const novaUrl = `https://apisidra.ibge.gov.br/values/t/1842/n1/all/v/${variaveisSelecionadas.join(',')}/p/${anosSelecionados.join(',')}/c12762/${cnaesSelecionadas.join(',')}`
+    setFiltros({ variaveis: variaveisSelecionadas, cnaes: cnaesSelecionadas, anos: anosSelecionados })
+    setUrl(novaUrl)
+
+    setTimeout(() => {
+      resultadoRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 100)
+  }
 
   const handleToggle = (
     codigo: string,
@@ -39,36 +48,11 @@ export default function FiltroGeral() {
     setSelecionados(atualizados)
   }
 
-  const buscarDados = async () => {
-    const apiUrl = montarURL()
-    if (!apiUrl) return
-
-    try {
-      setLoading(true)
-      setUrl(apiUrl)
-
-      const response = await fetch(apiUrl)
-      const json = await response.json()
-      const dadosFiltrados = json.slice(1) // remove cabeçalho
-      setDados(dadosFiltrados)
-      setTimeout(() => {
-        resultadoRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }, 10) // timeout pequeno só pra garantir que o DOM atualizou
-    } catch (err) {
-      console.error('Erro ao buscar dados:', err)
-    } finally {
-      setLoading(false)
-     
-    }
-  }
-
-  const renderAcordeon = () => {
-    if (!dados.length) return null
-
+  const renderAcordeon = (dados: any[]) => {
     const agrupado: Record<string, Record<string, Record<string, Record<string, string>>>> = {}
 
     dados.forEach(item => {
-      const local = item.D1N // Ex: Brasil
+      const local = item.D1N
       const variavel = item.D2N
       const ano = item.D3N
       const cnae = item.D4N
@@ -82,7 +66,6 @@ export default function FiltroGeral() {
     })
 
     return (
-      <>
       <div className="container-tabelas mt-4">
         {Object.entries(agrupado).map(([local, variaveis], i) => (
           <details key={i} open className="mb-6 border rounded">
@@ -106,23 +89,10 @@ export default function FiltroGeral() {
                             </li>
                           ))}
                         </ul>
-                        {/* Gráfico */}
                         <div className="h-64 mt-4">
-                          <ResponsiveContainer width="100%" height="100%">
-                            <BarChart
-                              data={Object.entries(cnaes).map(([cnae, valor]) => ({
-                                cnae,
-                                valor: parseFloat(valor.replace(',', '.')) || 0
-                              }))}
-                            >
-                              <CartesianGrid strokeDasharray="3 3" />
-                              <XAxis dataKey="cnae" tick={{ fontSize: 10 }} />
-                              <YAxis />
-                              <Tooltip />
-                              <Legend />
-                              <Bar dataKey="valor" fill="#3b82f6" name={variavel} />
-                            </BarChart>
-                          </ResponsiveContainer>
+                          <Suspense fallback={<div>Carregando gráfico...</div>}>
+                            <BarChartLazy cnaes={cnaes} variavel={variavel} />
+                          </Suspense>
                         </div>
                       </details>
                     ))}
@@ -133,7 +103,6 @@ export default function FiltroGeral() {
           </details>
         ))}
       </div>
-      </>
     )
   }
 
@@ -235,26 +204,35 @@ export default function FiltroGeral() {
         </div>
       </div>
 
-
-      {/* Botão buscar */}
       <div className="md:col-span-3 mt-4">
         <button
           onClick={buscarDados}
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-          disabled={loading}
+          disabled={isLoading}
         >
-          {loading ? 'Buscando...' : 'Buscar'}
+          {isLoading ? 'Buscando...' : 'Buscar'}
         </button>
       </div>
 
-      {/* URL */}
       <div className="md:col-span-3 text-xs text-gray-500 mt-2 break-all">
         {url && <div><strong>URL:</strong> {url}</div>}
       </div>
 
-      {/* Resultado formatado */}
       <div className="md:col-span-3" ref={resultadoRef}>
-        {loading ? <Loader /> : renderAcordeon()}
+        {isLoading && <Loader />}
+        {data?.pages.map((page, idx) => (
+          <div key={idx}>{renderAcordeon(page)}</div>
+        ))}
+
+        {hasNextPage && (
+          <button
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+            className="mt-4 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+          >
+            {isFetchingNextPage ? 'Carregando...' : 'Carregar mais'}
+          </button>
+        )}
       </div>
     </div>
   )
