@@ -34,16 +34,26 @@ export default function Header() {
       </div>
          <div className="container mx-auto flex items-center justify-between px-6 py-4">
       <div className="text-xl font-bold text-gray-800">
-        <Image src="/logo.svg" width="180" height="50" alt="Observatório da Indústria" title="        Observatório da Indústria" />
+        <Image src="/logo.svg" width="180" height="50" alt="Observatório da Indústria" title="Observatório da Indústria" />
       </div>
       <div className="flex items-center gap-4">
+      <div className="img-profile">
+        <Image
+          src="/profile.png"
+          alt="Foto do usuário"
+          className="w-10 h-10 rounded-full object-cover"
+          width={40}
+          height={40}
+        />
+      </div>
         <div className="text-sm text-gray-700 text-right">
           <div>{session.user?.name}</div>
           <div className="text-xs text-gray-500">{session.user?.email}</div>
         </div>
+      
         <button
-          onClick={() => signOut({ callbackUrl: '/login' })}
-          className="bg-red-500 hover:bg-red-600 text-white px-4 py-1.5 rounded"
+          onClick={() => signOut({ callbackUrl: '/auth/login' })}
+          className="bg-red-500 hover:bg-red-600 text-white px-4 py-1.5 rounded cursor-pointer"
         >
           Sair
         </button>

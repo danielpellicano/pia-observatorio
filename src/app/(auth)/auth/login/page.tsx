@@ -1,6 +1,7 @@
 'use client'
 
 import { signIn, useSession } from 'next-auth/react'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
 
@@ -84,28 +85,33 @@ export default function LoginPage() {
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center gap-6 p-8 bg-gray-200">
-      <div className="bg-white p-6 w-full max-w-sm rounded-lg shadow-lg">
-        <div className="flex gap-4 mb-6">
-          <button
-            className={`py-2 px-4 text-lg font-semibold rounded-t-md transition duration-300 ${
-              !modoCadastro ? 'bg-gray-200 text-black' : 'bg-white text-gray-700 hover:bg-gray-100'
-            }`}
-            onClick={() => setModoCadastro(false)}
-          >
-            Login
-          </button>
-          <button
-            className={`py-2 px-4 text-lg font-semibold rounded-t-md transition duration-300 ${
-              modoCadastro ? 'bg-gray-200 text-black' : 'bg-white text-gray-700 hover:bg-gray-100'
-            }`}
-            onClick={() => setModoCadastro(true)}
-          >
-            Cadastro
-          </button>
-        </div>
+       <Image src="/logo.svg" width="280" height="80" alt="Observatório da Indústria" title="Observatório da Indústria" />
+      <div className="bg-white w-full max-w-sm rounded-lg shadow-lg">
+      <div className="flex gap-0 mb-6">
+        <button
+          className={`w-1/2 py-2 px-4 text-lg font-semibold transition duration-300 cursor-pointer ${
+            !modoCadastro
+              ? 'bg-white text-black'
+              : 'bg-[#E5E7EB] text-gray-600'
+          }`}
+          onClick={() => setModoCadastro(false)}
+        >
+          Login
+        </button>
+        <button
+          className={`w-1/2 py-2 px-4 text-lg font-semibold transition duration-300 cursor-pointer rounded-none rounded-tl-[8px] ${
+            modoCadastro
+              ? 'bg-white text-black'
+              : 'bg-[#E5E7EB] text-gray-600 rounded-none rounded-tr-[8px]'
+          }`}
+          onClick={() => setModoCadastro(true)}
+        >
+          Cadastro
+        </button>
+      </div>
 
         {modoCadastro ? (
-          <form onSubmit={handleCadastro} className="flex flex-col gap-4">
+          <form onSubmit={handleCadastro} className="flex flex-col gap-4 p-6">
             <input
               value={nome}
               onChange={e => setNome(e.target.value)}
@@ -139,13 +145,13 @@ export default function LoginPage() {
             />
             <button
               type="submit"
-              className="p-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition duration-300"
+              className="p-2 bg-[#154388] text-white rounded-md hover:bg-green-600 transition duration-300"
             >
               Cadastrar
             </button>
           </form>
         ) : (
-          <form onSubmit={handleLogin} className="flex flex-col gap-4">
+          <form onSubmit={handleLogin} className="flex flex-col gap-4 p-6">
             <input
               value={email}
               onChange={e => setEmail(e.target.value)}
@@ -163,7 +169,7 @@ export default function LoginPage() {
             />
             <button
               type="submit"
-              className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"
+              className="p-2 bg-[#154388] text-white rounded-md hover:bg-blue-600 transition duration-300 cursor-pointer"
             >
               Entrar
             </button>
@@ -176,18 +182,12 @@ export default function LoginPage() {
           <>
             <div className="text-center text-sm text-gray-500 my-4">ou</div>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 px-6 pb-6">
               <button
                 onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
-                className="p-2 bg-white border border-gray-300 rounded-md hover:bg-gray-100 transition duration-300"
+                className="p-2 bg-white border border-gray-300 rounded-md hover:bg-gray-100 transition duration-300 flex justify-center gap-3 items-center"
               >
-                Entrar com Google
-              </button>
-              <button
-                onClick={() => signIn('linkedin', { callbackUrl: '/dashboard' })}
-                className="p-2 bg-white border border-gray-300 rounded-md hover:bg-gray-100 transition duration-300"
-              >
-                Entrar com LinkedIn
+                <Image src="/google.png" alt="Google" width={30} height={30} />Entrar com Google
               </button>
             </div>
           </>
