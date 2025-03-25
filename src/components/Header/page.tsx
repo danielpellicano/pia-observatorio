@@ -9,9 +9,32 @@ export default function Header() {
   if (!session) return null
 
   return (
-    <header className="w-full flex items-center justify-between bg-gray-100 px-6 py-4 border-b border-gray-200">
+    <header className="w-full border-gray-200 bg-gray-100 border-b">
+      <div className="bar-top bg-[#154388] p-2">
+          <ul className="flex justify-center items-center just">
+            <li> <a href="https://www.iel-ce.org.br/">
+            <Image src="https://www.observatorio.ind.br/wp-content/themes/fiec/images/logo/IEL.svg" alt="IEL" width={37} height={13} />
+            </a></li>
+            <li> <a href="http://www.sesi-ce.org.br/">
+            <Image src="https://www.observatorio.ind.br/wp-content/themes/fiec/images/logo/SESI.svg" alt="SESI" width={54} height={13} />
+              </a></li>
+            <li> <a href="https://www.senai-ce.org.br/">
+            
+            <Image src="https://www.observatorio.ind.br/wp-content/themes/fiec/images/logo/SENAI.svg" alt="SESI" width={69} height={13} />
+            
+            
+            </a></li>
+            <li><a href="http://www.sfiec.org.br/">
+
+            <Image src="https://www.observatorio.ind.br/wp-content/themes/fiec/images/logo/FIEC.svg" alt="FIEC" width={54} height={13} />
+                        
+            </a></li>
+          </ul>
+
+      </div>
+         <div className="container mx-auto flex items-center justify-between px-6 py-4">
       <div className="text-xl font-bold text-gray-800">
-        <Image src="/logo.png" width="180" height="50" alt="Observatório da Indústria" title="        Observatório da Indústria" />
+        <Image src="/logo.svg" width="180" height="50" alt="Observatório da Indústria" title="        Observatório da Indústria" />
       </div>
       <div className="flex items-center gap-4">
         <div className="text-sm text-gray-700 text-right">
@@ -24,7 +47,11 @@ export default function Header() {
         >
           Sair
         </button>
+        </div>
       </div>
     </header>
+
+
+
   )
 }
