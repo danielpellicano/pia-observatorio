@@ -2,13 +2,12 @@
 
 import { useEffect, useState } from 'react'
 import { getPIAValues } from '@/services/sidraApi'
-import FiltroGeral from '@/components/FiltroGeral'
+import Filter from '@/components/Filter'
 
 export default function Dashboard() {
   const [dados, setDados] = useState<any[]>([])
   const [erro, setErro] = useState('')
   const [loading, setLoading] = useState(false)
-  const [variaveisSelecionadas, setVariaveisSelecionadas] = useState<string[]>([])
 
 
   useEffect(() => {
@@ -34,21 +33,9 @@ export default function Dashboard() {
 
       {loading && <p>Carregando...</p>}
       {erro && <p className="text-red-600">{erro}</p>}
-{/* 
-      {!loading && !erro && (
-        <div className="overflow-auto text-sm bg-gray-100 p-4 rounded max-h-[400px]">
-          <pre>{JSON.stringify(dados, null, 2)}</pre>
-        </div>
-      )} */}
 
-{/* 
-      <FiltroVariaveisCheckbox onChange={(selecionadas) => {
-        setVariaveisSelecionadas(selecionadas)
-        console.log('Selecionadas:', selecionadas)
-      }} />
-   */}
 
-      <FiltroGeral />
+      <Filter/>
 
 
     </div>

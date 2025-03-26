@@ -8,7 +8,7 @@ import Image from 'next/image'
 
 const BarChartLazy = lazy(() => import('@/components/BarChartWrapper'))
 
-export default function FiltroGeral() {
+export default function Filter() {
   const [variaveisSelecionadas, setVariaveisSelecionadas] = useState<string[]>([])
   const [cnaesSelecionadas, setCnaesSelecionadas] = useState<string[]>([])
   const [anosSelecionados, setAnosSelecionados] = useState<string[]>([])

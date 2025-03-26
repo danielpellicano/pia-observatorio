@@ -91,18 +91,18 @@ export default function LoginPage() {
         <button
           className={`w-1/2 py-2 px-4 text-lg font-semibold transition duration-300 cursor-pointer ${
             !modoCadastro
-              ? 'bg-white text-black'
-              : 'bg-[#E5E7EB] text-gray-600'
+              ? 'bg-white text-black rounded-t-2xl'
+              : 'bg-[#E5E7EB] text-gray-600 rounded-none'
           }`}
           onClick={() => setModoCadastro(false)}
         >
           Login
         </button>
         <button
-          className={`w-1/2 py-2 px-4 text-lg font-semibold transition duration-300 cursor-pointer rounded-none rounded-tl-[8px] ${
+          className={`w-1/2 py-2 px-4 text-lg font-semibold transition duration-300 cursor-pointer rounded-none bg-[#E5E7EB] ${
             modoCadastro
-              ? 'bg-white text-black'
-              : 'bg-[#E5E7EB] text-gray-600 rounded-none rounded-tr-[8px]'
+              ? 'bg-white text-black  rounded-tr-[8px] '
+              : 'bg-[#E5E7EB] text-gray-600 rounded-none'
           }`}
           onClick={() => setModoCadastro(true)}
         >
@@ -116,7 +116,7 @@ export default function LoginPage() {
               value={nome}
               onChange={e => setNome(e.target.value)}
               placeholder="Nome"
-              className="p-2 border rounded-md placeholder:text-gray-600"
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
               required
             />
             <input
@@ -124,7 +124,7 @@ export default function LoginPage() {
               onChange={e => setEmail(e.target.value)}
               placeholder="Email"
               type="email"
-              className="p-2 border rounded-md placeholder:text-gray-600"
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
               required
             />
             <input
@@ -132,7 +132,7 @@ export default function LoginPage() {
               onChange={e => setSenha(e.target.value)}
               type="password"
               placeholder="Senha"
-              className="p-2 border rounded-md placeholder:text-gray-600"
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
               required
             />
             <input
@@ -140,7 +140,7 @@ export default function LoginPage() {
               onChange={e => setConfirmarSenha(e.target.value)}
               type="password"
               placeholder="Confirmar Senha"
-              className="p-2 border rounded-md placeholder:text-gray-600"
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
               required
             />
             <button
@@ -156,7 +156,7 @@ export default function LoginPage() {
               value={email}
               onChange={e => setEmail(e.target.value)}
               placeholder="Email"
-              className="p-2 border rounded-md placeholder:text-gray-600"
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
               required
             />
             <input
@@ -164,7 +164,7 @@ export default function LoginPage() {
               onChange={e => setSenha(e.target.value)}
               type="password"
               placeholder="Senha"
-              className="p-2 border rounded-md placeholder:text-gray-600"
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
               required
             />
             <button

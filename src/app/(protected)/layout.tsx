@@ -5,7 +5,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { headers } from 'next/headers'
-import Header from '@/components/Header/page'
+import Header from '@/components/Header'
 import Footer from '@/components/Footer/page'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
