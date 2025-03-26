@@ -1,12 +1,9 @@
-// src/app/api/auth/[...nextauth]/route.ts
-
 import NextAuth from 'next-auth'
+import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
 import LinkedInProvider from 'next-auth/providers/linkedin'
-import CredentialsProvider from 'next-auth/providers/credentials'
 
-import fs from 'fs/promises'
-import path from 'path'
+import { mockUsers } from '@/utils/usersStore'
 
 const handler = NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
@@ -26,30 +23,24 @@ const handler = NextAuth({
         password: { label: 'Senha', type: 'password' },
       },
       async authorize(credentials) {
-        const filePath = path.resolve(process.cwd(), 'src/mock/users.json')
+        console.log('Credenciais recebidas:', credentials)
 
-        try {
-          const fileData = await fs.readFile(filePath, 'utf-8')
-          const users = JSON.parse(fileData)
+        const user = mockUsers.find(
+          (u: any) =>
+            u.email === credentials?.email && u.senha === credentials?.password
+        )
 
-          const user = users.find(
-            (u: any) =>
-              u.email === credentials?.email && u.senha === credentials?.password
-          )
+        if (user) {
+          console.log('Usuário autenticado:', user)
 
-          if (user) {
-            return {
-              id: user.id,
-              name: user.nome,
-              email: user.email,
-            }
+          return {
+            id: String(user.id),
+            name: user.nome,
+            email: user.email,
           }
-
-          return null
-        } catch (error) {
-          console.error('Erro ao ler users.json:', error)
-          return null
         }
+
+        return null
       },
     }),
   ],
