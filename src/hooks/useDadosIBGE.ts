@@ -24,10 +24,9 @@ export function useDadosIBGE(filtros: Filtros | null) {
       const url = montarURL(filtros!.variaveis, filtros!.cnaes, filtros!.anos, pageParam)
       const res = await fetch(url)
       const json = await res.json()
-      console.log(json);
-      return json.slice(1);
-  
+      return json.slice(1) // remove cabeçalho
     },
+    initialPageParam: 0, // ✅ obrigatório no React Query 5+
     enabled: !!filtros,
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.length < PAGE_SIZE ? undefined : allPages.length * PAGE_SIZE

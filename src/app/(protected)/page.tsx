@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { getPIAValues } from '@/services/sidraApi'
-import FiltroVariaveisCheckbox from '@/components/Filtro/VariaveisCheckBox'
 import FiltroGeral from '@/components/FiltroGeral'
-import Header from '@/components/Header/page'
 
 export default function Dashboard() {
   const [dados, setDados] = useState<any[]>([])
@@ -50,14 +48,7 @@ export default function Dashboard() {
       }} />
    */}
 
-      <FiltroGeral onChange={(filtros) => {
-        console.log(filtros)
-        // {
-        //   variaveis: ['1000630'],
-        //   cnaes: ['117897'],
-        //   anos: ['2022']
-        // }
-      }} />
+      <FiltroGeral />
 
 
     </div>

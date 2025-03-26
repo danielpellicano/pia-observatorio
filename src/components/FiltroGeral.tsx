@@ -230,14 +230,10 @@ export default function FiltroGeral() {
         </button>
       </div>
 
-      <div className="md:col-span-3 text-xs text-gray-500 mt-2 break-all">
-        {url && <div><strong>URL:</strong> {url}</div>}
-      </div>
-
       <div className="md:col-span-3" ref={resultadoRef}>
         {isLoading && <Loader />}
         {data?.pages.map((page, idx) => (
-          <div key={idx}>{renderAcordeon(page)}</div>
+          <div key={idx}>{renderAcordeon(page as any[])}</div>
         ))}
 
         {hasNextPage && (

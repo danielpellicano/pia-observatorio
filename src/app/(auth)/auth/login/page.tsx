@@ -18,7 +18,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (status === 'authenticated') {
-      router.replace('/dashboard')
+      router.replace('/')
     }
   }, [status, router])
 
@@ -31,7 +31,7 @@ export default function LoginPage() {
       redirect: false,
       email,
       password: senha,
-      callbackUrl: '/dashboard',
+      callbackUrl: '/',
     })
 
     if (result?.error) {

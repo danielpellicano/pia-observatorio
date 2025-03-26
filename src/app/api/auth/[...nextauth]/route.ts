@@ -9,6 +9,7 @@ import fs from 'fs/promises'
 import path from 'path'
 
 const handler = NextAuth({
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -67,7 +68,7 @@ const handler = NextAuth({
       return token
     },
     async session({ session, token }) {
-      if (token) {
+      if (token && session.user) {
         session.user.name = token.name as string
         session.user.email = token.email as string
       }

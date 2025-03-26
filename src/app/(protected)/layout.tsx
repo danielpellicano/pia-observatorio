@@ -24,11 +24,15 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   }
 
   return (
+    <html lang="pt-BR">
+      <body>
         <Providers>
           <Header />
           {children}
           <Footer />
         </Providers>
+        </body>
+        </html>
 
   )
 }
